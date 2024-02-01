@@ -32,4 +32,5 @@ public class Lecture {
 
 //    @ManyToMany(mappedBy = "completed")
 //    private final List<Student> completedStudents = new ArrayList<>();
+
 }
