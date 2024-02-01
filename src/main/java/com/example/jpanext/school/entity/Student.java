@@ -30,6 +30,11 @@ public class Student {
     private String phone;
     private String email;
 
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "advisor_id")
+    private Instructor advisor;
+
     @ManyToMany
     // Join Table의 모습을 정의하고 싶을 때
     @JoinTable(

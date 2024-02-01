@@ -26,6 +26,11 @@ public class Lecture {
     @Setter
     private Integer endTime;
 
+    @Setter
+    @ManyToOne
+    @JoinColumn (name = "instructor_id")
+    private Instructor instructor;
+
     // 상세 설정은 mappedBy가 가르키는 속성에 따르다.
     @ManyToMany(mappedBy = "attending")
     private final List<Student> students = new ArrayList<>();
