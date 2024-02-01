@@ -72,5 +72,5 @@ public interface LectureRepository
             countQuery = "SELECT COUNT(*) FROM lecture WHERE start_time < 12",
             nativeQuery = true
     )
-    Page<Lecture> findLecturesBeforeLunchNative(Pageable pagaable);
+    Page<Lecture> findLecturesBeforeLunchNative(Pageable pageable);
 }
