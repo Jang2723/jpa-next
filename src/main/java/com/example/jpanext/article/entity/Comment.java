@@ -18,5 +18,7 @@ public class Comment  extends BaseEntity {
     private String writer;
 
     @ManyToOne
+    // FK의 이름 설정
+    @JoinColumn(name ="article_id")
     private Article article;
 }
