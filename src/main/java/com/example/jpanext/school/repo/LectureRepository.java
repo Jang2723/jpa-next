@@ -1,10 +1,12 @@
 package com.example.jpanext.school.repo;
 
+import com.example.jpanext.school.entity.Instructor;
 import com.example.jpanext.school.entity.Lecture;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -73,4 +75,36 @@ public interface LectureRepository
             nativeQuery = true
     )
     Page<Lecture> findLecturesBeforeLunchNative(Pageable pageable);
+
+/*    // 직접 전달할 쿼리를 작성하기 때문에 '
+    // JpaRepository<T, ID>'의 T와 무관하게 사용 가능하나...
+    // 별로 좋은 권장되는 방식은 아니다.
+    @Query("SELECT i FROM Instructor i")
+    List<Instructor> findInstructorsInLectureRepository();*/
+
+    @Query("SELECT l FROM Lecture l " +
+            "WHERE l.endTime - l.startTime > 3 ")
+    List<Lecture> toLongLectures();
+
+    // UPDATE, DELETE, INSERT의 경우 Modifying이 들어가야 한다.
+    @Modifying
+    @Query("UPDATE Lecture l " +
+            "SET l.endTime = l.startTime + 3 " +
+            "WHERE l.endTime - l.startTime > 3")
+    Integer setLectureMaxHour3();
+
+    // INSERT는 JPQL로 할 수 없다...
+    @Modifying
+    @Query(value =
+            "INSERT INTO lecture(name, start_time, end_time, instructor_id, day) " +
+                    "VALUES (:name, :startTime, :endTime, :instructorId, :day)",
+            nativeQuery = true
+    )
+    void insertLecture(
+            @Param("name") String name,
+            @Param("startTime") Integer startTime,
+            @Param("endTime") Integer endTime,
+            @Param("instructorId") Long instructorId,
+            @Param("day") String day
+    );
 }

@@ -9,6 +9,7 @@ import com.example.jpanext.school.repo.AttendingLectureRepository;
 import com.example.jpanext.school.repo.InstructorRepository;
 import com.example.jpanext.school.repo.LectureRepository;
 import com.example.jpanext.school.repo.StudentRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -90,7 +91,23 @@ public class SchoolController {
                 PageRequest.of(0,4)).forEach(lecture ->
                 log.info("{}: {}", lecture.getId(), lecture.getStartTime()));
 
+        // 서로 다른 Repository에서 무관한 Entity를 조회하는 행위를 지양할 것
+        /* lectureRepository.findInstructorsInLectureRepository().forEach(instructor ->
+                log.info("{}", instructor.getId()));*/
 
+        return "done";
+    }
+
+    @Transactional
+    @GetMapping("test-modifying")
+    public String modifying() {
+        log.info("modifying");
+        lectureRepository.toLongLectures().forEach(lecture ->
+                log.info("{}: {}",
+                        lecture.getName(),
+                        lecture.getEndTime() - lecture.getStartTime()));
+        lectureRepository.setLectureMaxHour3();
+        log.info("lectures over 3 hours: {}", lectureRepository.toLongLectures().size());
         return "done";
     }
 
