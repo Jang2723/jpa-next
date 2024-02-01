@@ -18,12 +18,17 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
-    private String firstName;
-    @Setter
-    //컬럼의 이름을 설정하고 싶을 때(그 외의 기능도 많음)
-    @Column(name = "last_name")
-    private String lastName;
+//    @Setter
+//    private String firstName;
+//    @Setter
+//    //컬럼의 이름을 설정하고 싶을 때(그 외의 기능도 많음)
+//    @Column(name = "last_name")
+//    private String lastName;
+
+    private String name;
+    private Integer age;
+    private String phone;
+    private String email;
 
     @ManyToMany
     // Join Table의 모습을 정의하고 싶을 때
@@ -35,6 +40,9 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name =" lecture_id")
     )
     private final List<Lecture> attending = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student")
+    private final List<AttendingLectures> attendingLectures = new ArrayList<>();
 
 //    @ManyToMany
 //    private final List<Lecture> completed = new ArrayList<>();

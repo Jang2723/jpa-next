@@ -1,10 +1,7 @@
 package com.example.jpanext.school.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
@@ -17,15 +14,19 @@ public class AttendingLectures {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
+    @Setter
     private Integer midTermScore;
+    @Setter
     private Integer finalsScore;
 
 
