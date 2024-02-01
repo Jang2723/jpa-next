@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 // 테이블의 이름을 설정하고 싶을 때(그 외의 기능도 많음)
-@Table(name = "student_table")
+@Table(name = "student")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

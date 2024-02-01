@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 @Slf4j
 @RestController
 @RequestMapping("school")
@@ -29,6 +30,45 @@ public class SchoolController {
     private final LectureRepository lectureRepository;
     private final AttendingLectureRepository attendingLectureRepo;
     private final InstructorRepository instructorRepository;
+
+    @GetMapping("test-query")
+    public String testQuery() {
+        /*List<Lecture> lectures = lectureRepository.findLecturesBeforeLaunch();
+        lectures = lectureRepository.findLecturesBeforeLunchNative();
+        for (Lecture lecture: lectures){
+            log.info("{}: {}" , lecture.getId(), lecture.getStartTime());
+        }
+*/
+        log.info("JPQL Sample");
+        lectureRepository.findLecturesBeforeLunch().forEach(lecture ->
+                log.info("{}: {}", lecture.getName(), lecture.getStartTime()));
+        lectureRepository.findLecturesBeforeLunchNative().forEach(lecture ->
+                log.info("{}: {}", lecture.getName(), lecture.getStartTime()));
+
+        log.info("=================== indexed parameters");
+        lectureRepository.findLecturesByTime(10, 13).forEach(lecture ->
+                log.info("{}: {} -> {}",
+                        lecture.getName(),
+                        lecture.getStartTime(),
+                        lecture.getEndTime()));
+
+
+        lectureRepository.findLecturesByTimeNative(10, 15).forEach(lecture ->
+                log.info("{}: {} -> {}",
+                        lecture.getName(),
+                        lecture.getStartTime(),
+                        lecture.getEndTime()));
+
+        log.info("=================== named parameters");
+        lectureRepository.findLecturesByTimeNamed(10, 13).forEach(lecture ->
+                log.info("{}: {} -> {}",
+                        lecture.getName(),
+                        lecture.getStartTime(),
+                        lecture.getEndTime()));
+
+
+        return "done";
+    }
 
     // CascadeType.PERSIST일때만 전부 저장됨
     @GetMapping("cascade-persist")
@@ -91,7 +131,7 @@ public class SchoolController {
     }
 
     @GetMapping("many-to-many")
-    public String test() {
+    public String manyToMany() {
         Student alex = Student.builder()
                 .name("alex")
                 .build();
