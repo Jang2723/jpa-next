@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: article.app
+    password: asLK1209
+    # url: jdbc:mysql://<host>:<port>/<schema>
+    url: jdbc:mysql://awf-free-rds.cdonggxycjcw.ap-northeast-2.rds.amawonaws.com:3306/articles
+  jpa:
+    database: mysql
+    hibernate:
+      # ddl-auto를 한번도 안 쓸수도 있다. (실무에서는 잘 안쓴다.)
+      # 단, 그 경우 Enriry 클래스의 정의와 완벽히 일치하는 Table이
+      # 사용하고자 하는 데이터베이스에 잘 만들어져 있어야 한다.
+      ddl-auto: create
+    show-sql: false
