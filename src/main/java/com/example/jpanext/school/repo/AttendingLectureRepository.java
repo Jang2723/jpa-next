@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface AttendingLecureRepository extends JpaRepository<AttendingLectures, Long> {
+public interface AttendingLectureRepository extends JpaRepository<AttendingLectures, Long> {
     List<AttendingLectures> findByStudent(Student student);
     List<AttendingLectures> findByLecture(Lecture lecture);
 }

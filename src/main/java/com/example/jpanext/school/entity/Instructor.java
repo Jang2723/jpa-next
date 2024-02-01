@@ -2,6 +2,7 @@ package com.example.jpanext.school.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ public class Instructor {
     @Setter
     private String name;
 
-    @OneToMany(mappedBy = "advisor")
+    // cascade : 영속성 전이
+    @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL)
     private List<Student> advisingStudents = new ArrayList<>();
 }
+
