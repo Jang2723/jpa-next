@@ -11,6 +11,8 @@ import com.example.jpanext.shop.repo.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -21,6 +23,9 @@ public class ShopService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
 
+    // 나를 호출한 메서드가 트랜잭션이면 그 일부로 실행되고
+    // 아니라면 내가 직접 트랜잭션을 만든다.
+    @Transactional(propagation = Propagation.REQUIRED)
     public void createOrder() {
         // 고객 정보 회수
         Customer customer = customerRepository
