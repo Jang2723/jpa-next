@@ -39,7 +39,7 @@ public class SchoolController {
     private final AttendingLectureRepository attendingLectureRepo;
     private final InstructorRepository instructorRepository;
 
-    @GetMapping("test-agg")
+    @GetMapping(value = "test-agg")
     public String testAggregate() {
         List<Object[]> results
                 = instructorRepository.selectILCountObject();
