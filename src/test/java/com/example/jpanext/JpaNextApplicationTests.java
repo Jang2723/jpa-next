@@ -35,19 +35,19 @@ class JpaNextApplicationTests {
 	private ItemRepository itemRepository;
 
 	@Test
-	public void optimisticLock() throws InterruptedException{
+	public void optimisticLock() throws InterruptedException {
 		// given
 		itemRepository.save(Item.builder()
 				.stock(25)
 				.build());
 
 		// when
-		// 몇번의 동시 요청이 있을 것인지
+		// 몇번의 동시 요청이 있을것인지
 		int threads = 5;
 		// 멀티쓰레드를 실행하기 위한 실행자
 		ExecutorService executorService
 				= Executors.newFixedThreadPool(threads);
-		// 결과를 담기 위한 리스트
+		// 결과를 담기위한 리스트
 		List<Future<?>> futures = new ArrayList<>();
 		for (int i = 0; i < threads; i++) {
 			// 여러개의 요청을 보낼 준비
@@ -61,7 +61,7 @@ class JpaNextApplicationTests {
 		try {
 			for (Future<?> future: futures)
 				future.get();
-		}catch (ExecutionException e){
+		} catch (ExecutionException e) {
 			result = (Exception) e.getCause();
 		}
 
@@ -89,7 +89,7 @@ class JpaNextApplicationTests {
 		for (int i = 0; i < threads; i++) {
 			// 여러개의 요청을 보낼 준비
 			futures.add(executorService.submit(
-					() -> shopService.decreaseStockShare()
+					() -> shopService.decreaseStockUpdate()
 			));
 		}
 
@@ -105,6 +105,6 @@ class JpaNextApplicationTests {
 //		System.out.println(result.getClass());
 //		assertTrue(result instanceof OptimisticLockingFailureException);
 		Item item = itemRepository.findById(1L).get();
-        assertEquals(5, item.getStock());
+		assertEquals(5, item.getStock());
 	}
 }
