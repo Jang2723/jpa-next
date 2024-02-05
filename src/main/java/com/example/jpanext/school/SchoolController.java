@@ -39,6 +39,67 @@ public class SchoolController {
     private final AttendingLectureRepository attendingLectureRepo;
     private final InstructorRepository instructorRepository;
 
+    @GetMapping("entity-graph")
+    public String entityGraph(){
+        List<Instructor> instructors = instructorRepository.findByEntityGraph();
+        for (Instructor instructor: instructors){
+            log.info("{}",instructor.getAdvisingStudents().size());
+        }
+        return "done";
+    }
+
+    @GetMapping("fetch-join")
+    public String fetchJoin(){
+//        List<Student> students = studentRepository.findAllFetchAdvisor();
+//        for(Student student: students){
+//            student.getAdvisor().getName();
+//        }
+        List<Instructor> instructors
+                = instructorRepository.findAllFetchStudents();
+        for (Instructor instructor: instructors){
+            log.info("{}",instructor.getAdvisingStudents().size());
+        }
+        return "done";
+    }
+
+    @GetMapping("join")
+    public String join() {
+        log.info("{}", studentRepository.findAllJoin().size());
+        log.info("{}", studentRepository.findAllLeftJoin().size());
+        log.info("{}", studentRepository.findAllRightJoin().size());
+        log.info("{}", studentRepository.findByAdvisorName("s"));
+        
+//        for (Student student: studentRepository.findAllJoin()){
+//            student.getAdvisor().getName();
+//        }
+
+        return "done";
+    }
+
+    @GetMapping("fetch-type")
+    public String fetchType(){
+//        studentRepository.findAll();
+//        List<Instructor> instructors = instructorRepository.findAll();
+//        for (Instructor instructor : instructors){
+////            log.info("advising student count: {}"
+////                    , instructor.getAdvisingStudents().size());
+//            // PersistentBag
+//            log.info("{}", instructor.getAdvisingStudents().getClass());
+//        }
+//        List<Student> students = studentRepository.findAll();
+//        for(Student student: students) {
+//            if (student.getAdvisor() != null) {
+//                log.info("{}", student.getAdvisor().getClass());
+//                log.info("{}", student.getAdvisor().getName());
+//            }
+//        }
+
+        // SELECT t FROM T t;
+        instructorRepository.findAll();
+        studentRepository.findAll();
+        return "done";
+    }
+
     @GetMapping(value = "test-agg")
     public String testAggregate() {
         List<Object[]> results

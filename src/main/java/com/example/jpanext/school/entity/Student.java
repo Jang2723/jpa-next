@@ -31,7 +31,7 @@ public class Student {
     private String email;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "advisor_id")
     private Instructor advisor;
 
