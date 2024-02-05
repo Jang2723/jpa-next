@@ -22,6 +22,9 @@ public class Item {
     @Setter
     private Integer stock;
 
+    @Version
+    private Long version;
+
     @ManyToOne
     private Shop shop;
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShopController {
     private final ShopService shopService;
     private final ParentService parentService;
+    private final EntityManagerService emService;
 
     @GetMapping("create-order")
     public String createOrder() {
@@ -31,5 +32,11 @@ public class ShopController {
     @GetMapping("dirty-check")
     public void dirtyCheck() {
         shopService.testDirtyChecking();
+    }
+
+    @GetMapping("test-em")
+    public void testEm() {
+        emService.save();
+        emService.find();
     }
 }
