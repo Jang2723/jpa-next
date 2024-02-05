@@ -25,7 +25,7 @@ public class ShopService {
 
     // 나를 호출한 메서드가 트랜잭션이면 그 일부로 실행되고
     // 아니라면 내가 직접 트랜잭션을 만든다.
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional()
     public void createOrder() {
         // 고객 정보 회수
         Customer customer = customerRepository
@@ -50,4 +50,22 @@ public class ShopService {
             itemRepository.save(item);
         }else throw new IllegalStateException();
     }
+
+    @Transactional
+    public void testIdentity() {
+        Item item = Item.builder().build();
+        Long id = itemRepository.save(item).getId();
+
+        Item a = itemRepository.findById(id).get();
+        Item b = itemRepository.findById(id).get();
+
+        log.info("is same object: {}", a == b);
+    }
+
+    @Transactional
+    public void testDirtyChecking() {
+        itemRepository.findAll().stream()
+                .forEach(item -> item.setStock(100));
+    }
+
 }

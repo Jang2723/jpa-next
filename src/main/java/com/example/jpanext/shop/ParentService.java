@@ -19,7 +19,7 @@ public class ParentService {
         customerRepository.save(Customer.builder()
                 .name("Parent None").build());
         try{
-//            childService.supports();
+            childService.supports();
             childService.mandatory(); // 호출도 안됨
         }catch (Exception e) {
             log.warn(e.getMessage());

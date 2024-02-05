@@ -22,4 +22,14 @@ public class ShopController {
     public void propagation() {
         parentService.none();
     }
+
+    @GetMapping("identity")
+    public void identity(){
+        shopService.testIdentity();
+    }
+
+    @GetMapping("dirty-check")
+    public void dirtyCheck() {
+        shopService.testDirtyChecking();
+    }
 }
