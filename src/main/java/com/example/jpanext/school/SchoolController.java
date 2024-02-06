@@ -39,8 +39,26 @@ public class SchoolController {
     private final AttendingLectureRepository attendingLectureRepo;
     private final InstructorRepository instructorRepository;
 
-    @GetMapping("multi-bag")
+    @GetMapping("pageable")
+    public String pageable() {
+        // 아래는 성능 문제 발생
+/*        instructorPage
+                = instructorRepository.findFetchPage(PageRequest.of(0,5));*/
+        // LAZY 를 하면 데이터가 필요할떄까지는 추가 쿼리가 필요없다.
+        Page<Instructor> instructorPage
+                = instructorRepository.findAll(PageRequest.of(0,5));
+
+        // 실제 데이터를 가져올 때 쿼리가 발생한다.
+        for (Instructor instructor : instructorPage){
+            instructor.getAdvisingStudents().size();
+        }
+        return "done";
+    }
+
+    @GetMapping("multi-bag") // 오류 나는게 정상
     public String multiBag() {
+//        List<Instructor> instructors
+//                = instructorRepository.findFetchStudentAndLecture();
         List<Instructor> instructors
                 = instructorRepository.findWithStudentAndLecture();
 
