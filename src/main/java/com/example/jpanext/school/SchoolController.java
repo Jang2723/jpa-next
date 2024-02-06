@@ -39,6 +39,18 @@ public class SchoolController {
     private final AttendingLectureRepository attendingLectureRepo;
     private final InstructorRepository instructorRepository;
 
+    @GetMapping("multi-bag")
+    public String multiBag() {
+        List<Instructor> instructors
+                = instructorRepository.findWithStudentAndLecture();
+
+        for (Instructor instructor: instructors) {
+            log.info("{}", instructor.getAdvisingStudents().size());
+            log.info("{}", instructor.getLectures().size());
+        }
+        return "done";
+    }
+
     @GetMapping("entity-graph")
     public String entityGraph(){
         List<Instructor> instructors = instructorRepository.findByEntityGraph();
@@ -86,13 +98,13 @@ public class SchoolController {
 //            // PersistentBag
 //            log.info("{}", instructor.getAdvisingStudents().getClass());
 //        }
-//        List<Student> students = studentRepository.findAll();
-//        for(Student student: students) {
-//            if (student.getAdvisor() != null) {
-//                log.info("{}", student.getAdvisor().getClass());
-//                log.info("{}", student.getAdvisor().getName());
-//            }
-//        }
+        List<Student> students = studentRepository.findAll();
+        for(Student student: students) {
+            if (student.getAdvisor() != null) {
+                log.info("{}", student.getAdvisor().getClass());
+                log.info("{}", student.getAdvisor().getId());
+            }
+        }
 
         // SELECT t FROM T t;
         instructorRepository.findAll();

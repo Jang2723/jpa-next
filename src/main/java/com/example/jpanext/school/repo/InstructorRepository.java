@@ -12,6 +12,15 @@ import java.util.List;
 
 public interface InstructorRepository
         extends JpaRepository<Instructor, Long> {
+
+    @EntityGraph(
+            attributePaths = {"advisingStudents", "lectures"},
+            type = EntityGraph.EntityGraphType.FETCH
+    )
+    @Query("SELECT DISTINCT i FROM Instructor i")
+    List<Instructor> findWithStudentAndLecture();
+
+
     @Query("SELECT DISTINCT i " +
             "FROM Instructor i " +
             "    LEFT JOIN FETCH i.advisingStudents")

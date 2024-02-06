@@ -27,12 +27,12 @@ public class Lecture {
     private Integer endTime;
 
     @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "instructor_id")
     private Instructor instructor;
 
     // 상세 설정은 mappedBy가 가르키는 속성에 따르다.
-    @ManyToMany(mappedBy = "attending")
+    @ManyToMany(mappedBy = "attending", fetch = FetchType.LAZY)
     private final List<Student> students = new ArrayList<>();
 
 //    @ManyToMany(mappedBy = "completed")
